@@ -5,13 +5,15 @@ import categoriesReducer from "./categories-reducer/categories-reducer";
 import patientsReducer from "./patients-reducer/patients-reducer";
 import billPositionsReducer from "./bill-positions/bill-positions-reducer";
 import billsReducer from "./bills-reducer/bills-reducer";
+import appReducer from "./app-reducer/app-reducer";
 
 const rootReducer=combineReducers({
     auth: authReducer,
     categories:categoriesReducer,
     patients: patientsReducer,
     billPositions: billPositionsReducer,
-    bills:billsReducer
+    bills:billsReducer,
+    app:appReducer
 })
 
 export type RootReducerType = typeof rootReducer;

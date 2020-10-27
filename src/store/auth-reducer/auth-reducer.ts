@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import {authApi} from "../../api/firebase-api";
+import {addNotificationAction, NotificationTypeEnum} from "../app-reducer/app-reducer";
 
 
 const initialState={
@@ -72,6 +73,11 @@ export const logOutActionCreator = () => {
         await authApi.logout()
         dispatch(logOutAction())
     }
+}
+export const updateUserInfoThunk=(name:string, medicPosition:string)=>async (dispatch:any)=>{
+    await authApi.updateUserInfo(name, medicPosition)
+    dispatch(addNotificationAction({message: "Вы успешно обновили данные", type: NotificationTypeEnum.SUCCESS}))
+    dispatch(getUserInfo())
 }
 export type AuthReducerActionTypes=SetUserInfoActionType|LogOutActionType
 export default authReducer

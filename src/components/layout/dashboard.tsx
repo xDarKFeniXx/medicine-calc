@@ -1,5 +1,5 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, {useState} from 'react';
+import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -9,16 +9,18 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Copyright} from './copyright';
 import clsx from 'clsx';
-
+import Avatar from '@material-ui/core/Avatar';
+import {red} from "@material-ui/core/colors";
+import Switch from '@material-ui/core/Switch';
+import {mainListItems} from "./menu-list";
+import {Link, useLocation} from 'react-router-dom'
 
 const drawerWidth = 240;
 
@@ -96,13 +98,21 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
+    avatar: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+
+            textDecoration :'none'
+
+    },
     fixedHeight: {
-        height: '80vh',
+        height: '78vh',
     },
 }));
 
-export const Dashboard:React.FC=(props) =>{
+export const Dashboard: React.FC = (props) => {
     const classes = useStyles();
+    const location = useLocation()
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -110,66 +120,80 @@ export const Dashboard:React.FC=(props) =>{
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const [darkState, setDarkState] = useState(true);
+    const palletType = darkState ? "dark" : "light";
+    const darkTheme = createMuiTheme({
+        palette: {
+            type: palletType,
+        }
+    });
+    const handleThemeChange = () => {
+        setDarkState(!darkState);
+    };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
-        <div className={classes.root}>
-        <CssBaseline />
-        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-    <Toolbar className={classes.toolbar}>
-    <IconButton
-        edge="start"
-    color="inherit"
-    aria-label="open drawer"
-    onClick={handleDrawerOpen}
-    className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
->
-    <MenuIcon />
-    </IconButton>
-    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-        Dashboard
-        </Typography>
-        <IconButton color="inherit">
-    <Badge badgeContent={4} color="secondary">
-        <NotificationsIcon />
-        </Badge>
-        </IconButton>
-        </Toolbar>
-        </AppBar>
-        <Drawer
-    variant="permanent"
-    classes={{
-        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-    }}
-    open={open}
-    >
-    <div className={classes.toolbarIcon}>
-    <IconButton onClick={handleDrawerClose}>
-        <ChevronLeftIcon />
-        </IconButton>
-        </div>
-        <Divider />
-        <List>list 1</List>
-        <Divider />
-        <List>list 2</List>
-        </Drawer>
-        <main className={classes.content}>
-    <div className={classes.appBarSpacer} />
-    <Container maxWidth="lg" className={classes.container}>
-        <Grid container spacing={3}>
+        <ThemeProvider theme={darkTheme}>
+            <div className={classes.root}>
+                <CssBaseline/>
+                <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+                    <Toolbar className={classes.toolbar}>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                            {location.pathname.slice(1) || "create bill"}
+                        </Typography>
+                        <Switch checked={darkState} onChange={handleThemeChange}/>
+                        <IconButton color="inherit">
 
-        <Grid item xs={12} md={8} lg={9}>
-    <Paper className={fixedHeightPaper}>
-        { props.children }
-        </Paper>
-        </Grid>
+                            <Avatar
+                                component={Link} to='/profile'
+                                className={classes.avatar}>M</Avatar>
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    classes={{
+                        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                    }}
+                    open={open}
+                >
+                    <div className={classes.toolbarIcon}>
+                        <IconButton onClick={handleDrawerClose}>
+                            <ChevronLeftIcon/>
+                        </IconButton>
+                    </div>
+                    <Divider/>
+                    <List>{mainListItems}</List>
+                    <Divider/>
 
-        </Grid>
-        <Box pt={4}>
-        <Copyright />
-        </Box>
-    </Container>
-        </main>
-        </div>
-);
+                </Drawer>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer}/>
+                    <Container maxWidth="lg" className={classes.container}>
+                        <Grid container spacing={3}>
+
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={fixedHeightPaper}>
+                                    {props.children}
+                                </Paper>
+                            </Grid>
+
+                        </Grid>
+                        <Box pt={4}>
+                            <Copyright/>
+                        </Box>
+                    </Container>
+                </main>
+            </div>
+        </ThemeProvider>
+    );
 }

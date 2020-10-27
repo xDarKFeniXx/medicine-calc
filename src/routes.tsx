@@ -11,6 +11,7 @@ import {ProfilePage} from "./pages/profile-page/profile-page";
 import {NotFoundPage} from "./pages/not-found-page/not-found-page";
 import {PatientsPage} from "./pages/patients-page/patients-page";
 import {BillPositionsPage} from "./pages/bill-positions-page/bill-positions-page";
+import {PatientPage} from "./pages/patients-page/patient-page";
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -49,9 +50,13 @@ export const useRoutes = () => {
             <Route path='/billPositions'>
                 <BillPositionsPage/>
             </Route>
+            <Route path='/patients/:id'>
+                <PatientPage/>
+            </Route>
             <Route path='/patients'>
                 <PatientsPage/>
             </Route>
+
             <Route path='/profile'>
                 <ProfilePage/>
             </Route>

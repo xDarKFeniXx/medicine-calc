@@ -2,7 +2,7 @@
 import firebase from "firebase/app"
 import 'firebase/auth'
 import 'firebase/firestore'
-import {CategoryType} from "../store/categories-reducer/categories-reducer";
+import {BillI} from "../store/bills-reducer/bills-reducer";
 
 
 export const authApi={
@@ -30,6 +30,14 @@ export const authApi={
                 console.log('An error happened')
             });
     },
+    async updateUserInfo(name:string, medicPosition:string){
+        const user = await firebase.auth().currentUser
+        if(user){
+            await firebase.firestore().collection('doctors').doc(user.uid).update({
+                name, medicPosition
+            })
+        }
+    }
 }
 const getCollection=async (nameCollection:string)=>{
     const array=[] as Array<any>
@@ -61,5 +69,19 @@ export const billPositionsApi={
 export const patientsApi={
     async getPatients(){
         return await getCollection('patients')
+    }
+}
+export const billsApi={
+    async getBills(){
+        return await getCollection('bills')
+    },
+    async addNewBill(newBill:BillI){
+      await firebase.firestore().collection('bills').add(newBill)
+          .then(function (docRef) {
+              console.log("Document written with ID: ", docRef.id);
+          })
+          .catch(function (error) {
+              console.error("Error adding document: ", error);
+          });
     }
 }

@@ -8,6 +8,7 @@ const initialState={
 export type BillPositionType={
     id: string
     name: string
+    price: number
     categoryId: string
     count: number
 }
