@@ -9,6 +9,30 @@ export const PatientsPage = () => {
     return (
         <div>
             {list}
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+            <div>f</div>
+
         </div>
     );
 };
