@@ -107,13 +107,14 @@ const useStyles = makeStyles((theme) => ({
     },
     fixedHeight: {
         height: '78vh',
+        minWidth: 255+16+16+'px'
     },
 }));
 
 export const Dashboard: React.FC = (props) => {
     const classes = useStyles();
     const location = useLocation()
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
         setOpen(true);
     };

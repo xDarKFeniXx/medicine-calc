@@ -38,7 +38,19 @@ export const getBillPositionsThunk=()=>{
         dispatch(setBillPositionsAction(data))
     }
 }
-
-
+export const addNewBillPositionThunk=(newBillPosition:BillPositionType)=>{
+    return async (dispatch:any)=>{
+        await billPositionsApi.addNewBillPosition(newBillPosition)
+        dispatch(getBillPositionsThunk())
+    }
+}
+export const updateBillPositionThunk=(newBillPosition:BillPositionType)=>async(dispatch:any)=>{
+    await billPositionsApi.updateBillPosition(newBillPosition)
+    dispatch(getBillPositionsThunk())
+}
+export const deleteBillPositionThunk=(billPositionId:string)=>async(dispatch:any)=>{
+    await billPositionsApi.deleteBillPosition(billPositionId)
+    dispatch(getBillPositionsThunk())
+}
 export type billPositionsActionTypes=SetBillPositionsActionType
 export default billPositionsReducer

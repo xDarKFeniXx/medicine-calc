@@ -33,7 +33,20 @@ export const getCategoriesThunk=()=>{
         dispatch(setCategoriesAction(data))
     }
 }
-
+export const addNewCategoryThunk=(newBCategory:CategoryType)=>{
+    return async (dispatch:any)=>{
+        await categoriesApi.addNewCategory(newBCategory)
+        dispatch(getCategoriesThunk())
+    }
+}
+export const updateCategoryThunk=(newCategory:CategoryType)=>async(dispatch:any)=>{
+    await categoriesApi.updateCategory(newCategory)
+    dispatch(getCategoriesThunk())
+}
+export const deleteCategoryThunk=(categoryId:string)=>async(dispatch:any)=>{
+    await categoriesApi.deleteCategory(categoryId)
+    dispatch(getCategoriesThunk())
+}
 
 export type categoriesReducerActionTypes=SetCategoriesActionType
 export default categoriesReducer

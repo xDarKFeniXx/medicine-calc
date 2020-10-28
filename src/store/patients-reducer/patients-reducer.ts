@@ -1,4 +1,4 @@
-import { patientsApi } from "../../api/firebase-api"
+import {patientsApi} from "../../api/firebase-api"
 
 
 const initialState={
@@ -35,7 +35,20 @@ export const getPatientsThunk=()=>{
         dispatch(setPatientsAction(data))
     }
 }
-
+export const addPatientThunk=(patient:PatientType)=>{
+    return async (dispatch:any)=>{
+        await patientsApi.addNewPatient(patient)
+        dispatch(getPatientsThunk())
+    }
+}
+export const updatePatientThunk=(patient:PatientType)=>async(dispatch:any)=>{
+    await patientsApi.updatePatient(patient)
+    dispatch(getPatientsThunk())
+}
+export const deletePatientThunk=(patientId:string)=>async(dispatch:any)=>{
+    await patientsApi.deletePatient(patientId)
+    dispatch(getPatientsThunk())
+}
 
 export type patientsActionTypes=SetPatientsActionType
 export default patientsReducer

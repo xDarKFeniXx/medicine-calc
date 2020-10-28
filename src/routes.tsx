@@ -50,6 +50,7 @@ export const useRoutes = () => {
             <Route path='/billPositions'>
                 <BillPositionsPage/>
             </Route>
+
             <Route path='/patients/:id'>
                 <PatientPage/>
             </Route>

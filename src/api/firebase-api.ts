@@ -54,21 +54,73 @@ const getCollection=async (nameCollection:string)=>{
         });
     return array
 }
-
+const addNewItemInCollection=async(collectionName:string, item:any)=>{
+    await firebase.firestore().collection(collectionName).add(item)
+        .then(function (docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+const deleteItemInCollection=async(collectionName:string, itemId:string)=>{
+    await firebase.firestore().collection(collectionName)
+        .doc(itemId)
+        .delete()
+        .then(function () {
+            console.log("Document successfully deleted!");
+        }).catch(function (error) {
+            console.error("Error removing document: ", error);
+        });
+}
+const updateItemInCollection=async(collectionName:string, item:any)=>{
+    const id=item.id
+    delete item.id
+    await firebase.firestore().collection(collectionName)
+        .doc(id)
+        .update({...item})
+}
 export const categoriesApi={
     async getCategories(){
        return await getCollection('categories')
+    },
+    async deleteCategory(categoryId:string){
+        await deleteItemInCollection('categories', categoryId)
+    },
+    async addNewCategory(newCategory:any){
+        await addNewItemInCollection('categories', newCategory)
+    },
+    async updateCategory(category:any){
+        await updateItemInCollection('categories', category)
     }
 }
 
 export const billPositionsApi={
     async getBillPositions(){
         return await getCollection('billPositions')
+    },
+    async deleteBillPosition(billPositionId:string){
+        await deleteItemInCollection('billPositions', billPositionId)
+    },
+    async addNewBillPosition(newBillPosition:any){
+        await addNewItemInCollection('billPositions', newBillPosition)
+    },
+    async updateBillPosition(billPosition:any){
+        await updateItemInCollection('billPositions', billPosition)
     }
 }
 export const patientsApi={
     async getPatients(){
         return await getCollection('patients')
+    },
+    async deletePatient(patientsId:string){
+        await deleteItemInCollection('patients', patientsId)
+    },
+    async addNewPatient(newPatient:any){
+        await addNewItemInCollection('patients', newPatient)
+    },
+    async updatePatient(patients:any){
+        await updateItemInCollection('patients', patients)
     }
 }
 export const billsApi={

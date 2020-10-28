@@ -10,7 +10,7 @@ export const PatientPage = () => {
     const {id}=useParams()
     // @ts-ignore
     const patient=useSelector(state=>patientByIdSelector(state, id))
-    const bills=useSelector(state=>userBillByIdSelector(state, id))
+    // const bills=useSelector(state=>userBillByIdSelector(state, id))
     return (
         <div>
 
