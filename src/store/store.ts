@@ -6,6 +6,7 @@ import patientsReducer from "./patients-reducer/patients-reducer";
 import billPositionsReducer from "./bill-positions/bill-positions-reducer";
 import billsReducer from "./bills-reducer/bills-reducer";
 import appReducer from "./app-reducer/app-reducer";
+import newBillReducer from "./new-bill/new-bill-reducer";
 
 const rootReducer=combineReducers({
     auth: authReducer,
@@ -13,7 +14,8 @@ const rootReducer=combineReducers({
     patients: patientsReducer,
     billPositions: billPositionsReducer,
     bills:billsReducer,
-    app:appReducer
+    app:appReducer,
+    newBill:newBillReducer
 })
 
 export type RootReducerType = typeof rootReducer;

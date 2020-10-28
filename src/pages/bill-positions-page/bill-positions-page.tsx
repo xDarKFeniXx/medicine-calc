@@ -1,12 +1,23 @@
 import React, {useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {categoriesSelector} from "../../store/categories-reducer/categories-selectors";
 import {Dialog, List, ListSubheader, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {updateCategoryThunk} from "../../store/categories-reducer/categories-reducer";
+import {
+    updateCategoryThunk,
+    addNewCategoryThunk,
+    deleteCategoryThunk
+} from "../../store/categories-reducer/categories-reducer";
 import {DialogEditField} from "../../components/dialog/dialog";
-import {updateBillPositionThunk} from "../../store/bill-positions/bill-positions-reducer";
+import {
+    updateBillPositionThunk,
+    addNewBillPositionThunk,
+    deleteBillPositionThunk
+} from "../../store/bill-positions/bill-positions-reducer";
 import {ListBillPositions} from "../../components/list-positions/list-bill-positions";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+import {billPositionsSelector} from "../../store/bill-positions/bill-positions-selectors";
 
 const useStyles = makeStyles((theme: Theme) =>({
         root: {
@@ -35,13 +46,22 @@ const useStyles = makeStyles((theme: Theme) =>({
             [theme.breakpoints.down('xs')]: {
                 minWidth: "20px",
             },
-        }
+        },
+    buttonBlock: {
+            display:'inline-flex',
+        justifyContent: 'space-around',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
     })
 );
 
 export const BillPositionsPage = () => {
+    const dispatch=useDispatch()
     const classes=useStyles()
     const categories=useSelector(categoriesSelector)
+    const billPositions=useSelector(billPositionsSelector)
     const [openArray, setOpenArray] = useState(new Array(categories.length).fill(false))
 
     const handleClick=(index:number)=>{
@@ -52,11 +72,21 @@ export const BillPositionsPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleDeleteBillPosition=(id:string)=>{
+        dispatch(deleteBillPositionThunk(id))
+    }
+    const handleDeleteCategory=(id:string)=>{
+        billPositions.filter(pos=>pos.categoryId===id).forEach(item=>{
+            dispatch(deleteBillPositionThunk(item.id))
+        })
+        dispatch(deleteCategoryThunk(id))
+    }
     const [dialogProps, setDialogProps]=useState({
         title: "",
-        categories:categories,
+        categories,
         handleClose: handleClose ,
         name:"",
+        price: 0,
         value:"",
         categoryId: "",
         id:"",
@@ -66,8 +96,9 @@ export const BillPositionsPage = () => {
 
         setDialogProps({
             ...dialogProps,
-            title: " edit category",
+            title: "edit category",
             name: "category",
+            categories:categories,
             id: categoryId,
             value: categoryName,
             // @ts-ignore
@@ -75,13 +106,15 @@ export const BillPositionsPage = () => {
         })
         setOpen(true)
     }
-    const handleChangeBillPosition=(id:string, name:string, categoryId:string)=>{
+    const handleChangeBillPosition=(id:string, name:string, categoryId:string, price:number)=>{
         setDialogProps({
             ...dialogProps,
             title: " edit bill position",
             name: "bill position",
+            categories:categories,
             id: id,
             categoryId:categoryId,
+            price:price,
             value: name,
             // @ts-ignore
             callbackDispatch: updateBillPositionThunk
@@ -90,8 +123,48 @@ export const BillPositionsPage = () => {
     }
 
 
+    const handleAddCategory=()=>{
+        setDialogProps({
+            ...dialogProps,
+            title: "add category",
+            name: "category",
+            categories:categories,
+            id: "",
+            value: "",
+            // @ts-ignore
+            callbackDispatch: addNewCategoryThunk
+        })
+        setOpen(true)
+    }
+    const handleAddBillPosition=()=>{
+        setDialogProps({
+            ...dialogProps,
+            title: "add bill position",
+            name: "bill position",
+            categories:categories,
+            id: "",
+            value: "",
+            // @ts-ignore
+            callbackDispatch: addNewBillPositionThunk
+        })
+        setOpen(true)
+    }
+
     return (
-        <>
+        <>  <div className={classes.buttonBlock}>
+            <Button
+                variant="contained"
+                component={"span"}
+                color="primary"
+                endIcon={<Icon>send</Icon>}
+                onClick={handleAddCategory}>add category</Button>
+            <Button
+                variant="contained"
+                component={"span"}
+                color="secondary"
+                endIcon={<Icon>send</Icon>}
+                onClick={handleAddBillPosition}>add billPosition</Button>
+        </div>
         <List
             component="nav"
             aria-labelledby="nested-list-subheader"
@@ -109,6 +182,9 @@ export const BillPositionsPage = () => {
                 handleClick={handleClick}
                 handleChangeCategory={handleChangeCategory}
                 openArray={openArray}
+                handleDeleteCategory={handleDeleteCategory}
+                handleDeleteBillPosition={handleDeleteBillPosition}
+
             />
         </List>
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

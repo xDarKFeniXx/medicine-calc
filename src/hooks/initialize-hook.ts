@@ -4,6 +4,7 @@ import {getUserInfo} from "../store/auth-reducer/auth-reducer";
 import {getCategoriesThunk} from "../store/categories-reducer/categories-reducer";
 import {getBillPositionsThunk} from "../store/bill-positions/bill-positions-reducer";
 import {getPatientsThunk} from "../store/patients-reducer/patients-reducer";
+import {getBillsThunk} from "../store/bills-reducer/bills-reducer";
 
 export const useInitializeHook=()=>{
     const [loading, setLoading] = useState(true)
@@ -13,6 +14,7 @@ export const useInitializeHook=()=>{
         dispatch(getCategoriesThunk())
         dispatch(getBillPositionsThunk())
         dispatch(getPatientsThunk())
+        dispatch(getBillsThunk())
         if(loading){
             setLoading(false)
         }

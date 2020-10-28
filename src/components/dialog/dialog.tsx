@@ -11,7 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
 export const DialogEditField = (props:any) => {
-    const {handleClose, title, name, value, id, callbackDispatch, categories, categoryId}=props
+    const {handleClose, title, name, value, id, callbackDispatch, categories, categoryId, price}=props
     const itemsForCategories=name!=="bill position"
         ?null
         //@ts-ignore
@@ -23,9 +23,10 @@ export const DialogEditField = (props:any) => {
     const dispatch=useDispatch()
     const [valueField, setValueField] = useState(value)
     const [categoryField, setCategoryField] = useState(categoryId)
+    const [priceField, setPriceField] = useState(price)
     const handleEdit=()=>{
         if(name==="bill position"){
-        dispatch(callbackDispatch({id:id, name:valueField, categoryId:categoryField}))
+        dispatch(callbackDispatch({id:id, name:valueField, categoryId:categoryField, price:priceField, count: 0}))
         } else{
             dispatch(callbackDispatch({id:id, name:valueField}))
         }
@@ -36,6 +37,9 @@ export const DialogEditField = (props:any) => {
     }
     const onChangeCategory=(e:any)=>{
         setCategoryField(e.target.value)
+    }
+    const handlePriceChange=(e:any)=>{
+        setPriceField(e.target.value)
     }
     return (
         <div>
@@ -62,6 +66,15 @@ export const DialogEditField = (props:any) => {
                     value={valueField}
                     onChange={handleOnChange}
                 />
+                {name==="bill position"&&<TextField
+                    type="number"
+                    autoFocus
+                    margin="dense"
+                    id={price}
+                    fullWidth
+                    value={priceField}
+                    onChange={handlePriceChange}
+                />}
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">

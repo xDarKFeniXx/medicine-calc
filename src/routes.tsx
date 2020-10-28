@@ -12,6 +12,8 @@ import {NotFoundPage} from "./pages/not-found-page/not-found-page";
 import {PatientsPage} from "./pages/patients-page/patients-page";
 import {BillPositionsPage} from "./pages/bill-positions-page/bill-positions-page";
 import {PatientPage} from "./pages/patients-page/patient-page";
+import {CreateBillPage} from "./pages/create-bill-page/create-bill-page";
+import { AllBillsPage } from './pages/all-bills-page';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -44,7 +46,7 @@ export const useRoutes = () => {
     return (
         <Switch>
             <Route exact path='/'>
-                <div>create bill</div>
+                <CreateBillPage/>
             </Route>
 
             <Route path='/billPositions'>
@@ -57,7 +59,9 @@ export const useRoutes = () => {
             <Route path='/patients'>
                 <PatientsPage/>
             </Route>
-
+            <Route path='/bills'>
+                <AllBillsPage/>
+            </Route>
             <Route path='/profile'>
                 <ProfilePage/>
             </Route>

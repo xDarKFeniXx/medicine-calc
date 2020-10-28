@@ -1,3 +1,6 @@
+import {AppStateType} from "../store";
 
 
-export const userBillByIdSelector=(state:any, id:string)=>state.bills //TODO
+export const userBillByIdSelector=(state:AppStateType, patientId:string)=>state.bills.filter(bill=>bill.patientId=patientId)
+
+export const allBillsSelector=(state:AppStateType)=>state.bills

@@ -1,15 +1,8 @@
 import { billsApi } from "../../api/firebase-api";
-import {BillPositionType} from "../bill-positions/bill-positions-reducer";
+import {BillI} from "../new-bill/new-bill-reducer";
 
 const initialState=[] as Array<BillI>
-export interface BillI{
-    id: string
-    createDate: string
-    patientId:string
-    positions:Array<BillPositionType>
-    sum: string|number
-    sale: string|number
-}
+
 const SET_BILLS="bills/SET_BILLS"
 const billsReducer=(state=initialState, action:BillsReducerActionTypes):Array<BillI>=>{
     switch (action.type){
@@ -33,7 +26,8 @@ export const getBillsThunk=()=>async (dispatch:any)=>{
     dispatch(setBillsAction(data))
 }
 export const addNewBillThunk=(newBill:BillI)=>async (dispatch:any)=>{
-
+    const data=await billsApi.addNewBill(newBill)
+    dispatch(getBillsThunk())
 }
 export default billsReducer
 export type BillsReducerActionTypes=SetBillsActionType

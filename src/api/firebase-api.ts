@@ -2,7 +2,7 @@
 import firebase from "firebase/app"
 import 'firebase/auth'
 import 'firebase/firestore'
-import {BillI} from "../store/bills-reducer/bills-reducer";
+import {BillI} from "../store/new-bill/new-bill-reducer";
 
 
 export const authApi={
