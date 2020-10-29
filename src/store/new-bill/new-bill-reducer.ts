@@ -28,6 +28,7 @@ const ADD_START_INFO="newBill/ADD_START_INFO"
 const CHANGE_ELEMENT="newBill/CHANGE_ELEMENT"
 const CHANGE_COUNT="newBill/CHANGE_COUNT"
 const CHANGE_DISCOUNT="newBill/CHANGE_DISCOUNT"
+const RESET_BILL="newBill/RESET_BILL"
 const newBillReducer=(state=initialState, action:NewBillReducerActionTypes):BillI=>{
     switch (action.type){
         case ADD_START_INFO:{
@@ -60,6 +61,9 @@ const newBillReducer=(state=initialState, action:NewBillReducerActionTypes):Bill
         case CHANGE_DISCOUNT:{
             // @ts-ignore
             return {...state, discount:action.payload, sum:state.sum*(1-+action.payload/100).toFixed(2)}
+        }
+        case RESET_BILL:{
+            return initialState
         }
         default:
             return state
@@ -104,5 +108,11 @@ export const changeDiscountAction=(discount:number|string)=>({
     type: CHANGE_DISCOUNT,
     payload:discount
 })
+type ResetBillActionType={
+    type: typeof RESET_BILL
+}
+export const resetBillAction=()=>({
+ type: RESET_BILL
+})
 export default newBillReducer
-export type NewBillReducerActionTypes=AddStartDataActionType|ChangeElementActionType|ChangeCountActionType|ChangeDiscountActionType
+export type NewBillReducerActionTypes=AddStartDataActionType|ChangeElementActionType|ChangeCountActionType|ChangeDiscountActionType|ResetBillActionType

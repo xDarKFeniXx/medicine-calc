@@ -5,7 +5,8 @@ import {
     addStarDataAction,
     changeCountAction,
     changeDiscountAction,
-    changeElementAction
+    changeElementAction,
+    resetBillAction
 } from "../../store/new-bill/new-bill-reducer";
 import {newBillStateSelector} from "../../store/new-bill/new-bill-selectors";
 import {categoriesSelector} from "../../store/categories-reducer/categories-selectors";
@@ -56,6 +57,11 @@ export const CreateBillPage = () => {
     const handleSaveBill=()=>{
         dispatch(addNewBillThunk(newBillState))
         history.push('/bills')
+    }
+    const handleResetForm=()=>{
+        dispatch(resetBillAction())
+        //@ts-ignore
+        dispatch(addStarDataAction(currentUser.id, currentUser.name, categories, billPositions, date))
     }
     //@ts-ignore
     const categoriesList = newBillState.categories.map(category => {
@@ -142,6 +148,12 @@ export const CreateBillPage = () => {
                 onClick={handleSaveBill}
             >
                 save
+            </Button>
+            {/*@ts-ignore*/}
+            <Button
+                    onClick={handleResetForm}
+            >
+                reset
             </Button>
         </div>
     );
