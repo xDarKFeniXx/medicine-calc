@@ -128,6 +128,14 @@ export const Dashboard: React.FC = (props) => {
             type: palletType,
         }
     });
+
+    darkTheme.typography.body1={
+        ...darkTheme.typography.body1,
+        [darkTheme.breakpoints.down('xs')]: {
+            fontSize: "10px",
+        },
+
+    }
     const handleThemeChange = () => {
         setDarkState(!darkState);
     };

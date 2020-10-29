@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>({
             backgroundColor: theme.palette.background.paper,
         },
         categoryText:{
-            [theme.breakpoints.down('xs')]: {
-                fontSize: "10px",
-            },
+            // [theme.breakpoints.down('xs')]: {
+            //     fontSize: "10px",
+            // },
         },
         positionText:{
             [theme.breakpoints.down('xs')]: {
