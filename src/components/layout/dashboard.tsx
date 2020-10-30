@@ -129,13 +129,6 @@ export const Dashboard: React.FC = (props) => {
         }
     });
 
-    darkTheme.typography.body1={
-        ...darkTheme.typography.body1,
-        [darkTheme.breakpoints.down('xs')]: {
-            fontSize: "10px",
-        },
-
-    }
     const handleThemeChange = () => {
         setDarkState(!darkState);
     };
@@ -144,7 +137,7 @@ export const Dashboard: React.FC = (props) => {
     return (
         <ThemeProvider theme={darkTheme}>
             <div className={classes.root}>
-                <CssBaseline/>
+
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton

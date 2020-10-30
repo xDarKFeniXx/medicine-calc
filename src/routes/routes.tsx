@@ -1,19 +1,19 @@
 import React from 'react';
-import {useInitializeHook} from "./hooks/initialize-hook";
+import {useInitializeHook} from "../hooks/initialize-hook";
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import {Route, Switch} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {currentUserSelector} from "./store/auth-reducer/auth-selectors";
-import {loginActionCreator} from "./store/auth-reducer/auth-reducer";
-import {ProfilePage} from "./pages/profile-page/profile-page";
-import {NotFoundPage} from "./pages/not-found-page/not-found-page";
-import {PatientsPage} from "./pages/patients-page/patients-page";
-import {BillPositionsPage} from "./pages/bill-positions-page/bill-positions-page";
-import {PatientPage} from "./pages/patients-page/patient-page";
-import {CreateBillPage} from "./pages/create-bill-page/create-bill-page";
-import { AllBillsPage } from './pages/all-bills-page';
+import {currentUserSelector} from "../store/auth-reducer/auth-selectors";
+import {loginActionCreator} from "../store/auth-reducer/auth-reducer";
+import {ProfilePage} from "../pages/profile-page/profile-page";
+import {NotFoundPage} from "../pages/not-found-page/not-found-page";
+import {PatientsPage} from "../pages/patients-page/patients-page";
+import {BillPositionsPage} from "../pages/bill-positions-page/bill-positions-page";
+import {PatientPage} from "../pages/patients-page/patient-page";
+import {CreateBillPage} from "../pages/create-bill-page/create-bill-page";
+import { AllBillsPage } from '../pages/all-bill-page/all-bills-page';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {

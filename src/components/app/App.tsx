@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 
@@ -7,6 +8,9 @@ import {BrowserRouter} from 'react-router-dom';
 import store from '../../store/store';
 import Notifier from '../notifier/notifier';
 import {AppWithStoreAndRouter} from "./app-with-store-and-router";
+import theme from '../../theme/theme'
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 
 function App() {
     const notistackRef = React.createRef();
@@ -18,7 +22,10 @@ function App() {
   return (
       <Provider store={store}>
         <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
             <SnackbarProvider
+
                 // @ts-ignore
                 ref={notistackRef}
                 action={(key) => (
@@ -30,6 +37,7 @@ function App() {
                 <Notifier/>
             <AppWithStoreAndRouter/>
             </SnackbarProvider>
+            </ThemeProvider>
         </BrowserRouter>
       </Provider>
   );

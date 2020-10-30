@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import { allBillsSelector } from '../store/bills-reducer/bills-selectors';
+import { allBillsSelector } from '../../store/bills-reducer/bills-selectors';
 
 export const AllBillsPage = () => {
 
