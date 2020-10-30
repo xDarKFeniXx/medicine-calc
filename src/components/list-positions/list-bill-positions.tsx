@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import {billPositionsSelector} from "../../store/bill-positions/bill-positions-selectors";
 import {categoriesSelector} from "../../store/categories-reducer/categories-selectors";
-import {Collapse, List, ListItem, ListItemIcon, ListItemText, TableBody} from "@material-ui/core";
+import {Collapse, List, ListItem, ListItemIcon, ListItemText, TableBody, Typography} from "@material-ui/core";
 import ClassIcon from "@material-ui/icons/Class";
 import CategoryIcon from "@material-ui/icons/Category";
 import EditIcon from "@material-ui/icons/Edit";
@@ -144,10 +144,9 @@ export const ListBillPositions = (props: any) => {
                 </TableRow>
                 <TableRow>
                     <TableCell/>
-                    <TableCell colSpan={3} style={{paddingBottom: 0, paddingTop: 0}}>
+                    <TableCell colSpan={6} style={{padding: 0}}>
                         <Collapse in={openArray[index]} timeout="auto" unmountOnExit
-                                  // component="tr"
-                                  // style={{display: "block"}}
+
                         >
                             <Box>
                                 <Table size="small">

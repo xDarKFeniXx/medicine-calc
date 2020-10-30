@@ -21,6 +21,7 @@ import {red} from "@material-ui/core/colors";
 import Switch from '@material-ui/core/Switch';
 import {mainListItems} from "./menu-list";
 import {Link, useLocation} from 'react-router-dom'
+import theme from "../../theme/theme";
 
 const drawerWidth = 240;
 
@@ -124,6 +125,7 @@ export const Dashboard: React.FC = (props) => {
     const [darkState, setDarkState] = useState(true);
     const palletType = darkState ? "dark" : "light";
     const darkTheme = createMuiTheme({
+        ...theme,
         palette: {
             type: palletType,
         }
