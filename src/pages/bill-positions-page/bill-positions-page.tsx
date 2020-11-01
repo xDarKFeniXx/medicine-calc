@@ -20,33 +20,7 @@ import Icon from "@material-ui/core/Icon";
 import {billPositionsSelector} from "../../store/bill-positions/bill-positions-selectors";
 
 const useStyles = makeStyles((theme: Theme) => ({
-        root: {
-            width: '100%',
-            backgroundColor: theme.palette.background.paper,
-        },
-        categoryText: {
-            // [theme.breakpoints.down('xs')]: {
-            //     fontSize: "10px",
-            // },
-        },
-        positionText: {
-            [theme.breakpoints.down('xs')]: {
-                fontSize: "10px",
-            },
-        },
-        nested: {
-            paddingLeft: theme.spacing(4),
-        },
-        iconSize: {
-            [theme.breakpoints.down('xs')]: {
-                fontSize: "12px",
-            },
-        },
-        rootIconList: {
-            [theme.breakpoints.down('xs')]: {
-                minWidth: "20px",
-            },
-        },
+
         buttonBlock: {
             display: 'inline-flex',
             justifyContent: 'space-around',
@@ -62,12 +36,7 @@ export const BillPositionsPage = () => {
     const classes = useStyles()
     const categories = useSelector(categoriesSelector)
     const billPositions = useSelector(billPositionsSelector)
-    const [openArray, setOpenArray] = useState(new Array(categories.length).fill(false))
 
-    const handleClick = (index: number) => {
-        const newItem = !openArray[index]
-        setOpenArray([...openArray.slice(0, index), newItem, ...openArray.slice(index + 1)])
-    }
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
         setOpen(false);
@@ -171,9 +140,9 @@ export const BillPositionsPage = () => {
                 <ListBillPositions
                     classes={classes}
                     handleChangeBillPosition={handleChangeBillPosition}
-                    handleClick={handleClick}
+
                     handleChangeCategory={handleChangeCategory}
-                    openArray={openArray}
+
                     handleDeleteCategory={handleDeleteCategory}
                     handleDeleteBillPosition={handleDeleteBillPosition}
 

@@ -9,7 +9,6 @@ import store from '../../store/store';
 import Notifier from '../notifier/notifier';
 import {AppWithStoreAndRouter} from "./app-with-store-and-router";
 import theme from '../../theme/theme'
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
             <ThemeProvider theme={theme}>
-                <CssBaseline/>
+
             <SnackbarProvider
 
                 // @ts-ignore

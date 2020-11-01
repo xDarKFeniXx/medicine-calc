@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import Avatar from '@material-ui/core/Avatar';
 import {red} from "@material-ui/core/colors";
 import Switch from '@material-ui/core/Switch';
-import {mainListItems} from "./menu-list";
+import {MainListItems} from "./menu-list";
 import {Link, useLocation} from 'react-router-dom'
 import theme from "../../theme/theme";
 
@@ -78,9 +78,9 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
+        width: theme.spacing(5),
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
+            width: theme.spacing(7),
         },
     },
     appBarSpacer: theme.mixins.toolbar,
@@ -139,7 +139,7 @@ export const Dashboard: React.FC = (props) => {
     return (
         <ThemeProvider theme={darkTheme}>
             <div className={classes.root}>
-
+                <CssBaseline/>
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton
@@ -176,7 +176,7 @@ export const Dashboard: React.FC = (props) => {
                         </IconButton>
                     </div>
                     <Divider/>
-                    <List>{mainListItems}</List>
+                    <List><MainListItems/></List>
                     <Divider/>
 
                 </Drawer>

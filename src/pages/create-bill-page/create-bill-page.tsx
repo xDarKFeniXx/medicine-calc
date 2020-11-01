@@ -144,6 +144,7 @@ export const CreateBillPage = () => {
             {/*@ts-ignore*/}
             {newBillState.sum.toFixed(2)}
             {/*@ts-ignore*/}
+
             <Button disabled={newBillState.patientName===""}
                 onClick={handleSaveBill}
             >

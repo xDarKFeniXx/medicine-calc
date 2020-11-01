@@ -54,6 +54,23 @@ const getCollection=async (nameCollection:string)=>{
         });
     return array
 }
+const getCollectionsSearch=async(nameCollection:string, search:string)=>{
+    const array=[ ]as Array<any>
+    await firebase.firestore().collection(nameCollection)
+        // .where('name', '<=', search)
+        .where('name', '>=', search).where('name', '<=', search+ '\uf8ff')
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                //@ts-ignore
+                array.push({...doc.data(), id: doc.id})
+            });
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+    return array
+}
 const addNewItemInCollection=async(collectionName:string, item:any)=>{
     await firebase.firestore().collection(collectionName).add(item)
         .then(function (docRef) {
@@ -112,6 +129,9 @@ export const billPositionsApi={
 export const patientsApi={
     async getPatients(){
         return await getCollection('patients')
+    },
+    async getPatientsSearch(search:string){
+        return await getCollectionsSearch('patients', search)
     },
     async deletePatient(patientsId:string){
         await deleteItemInCollection('patients', patientsId)
