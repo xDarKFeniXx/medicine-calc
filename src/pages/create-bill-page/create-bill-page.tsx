@@ -12,11 +12,7 @@ import {newBillStateSelector} from "../../store/new-bill/new-bill-selectors";
 import {categoriesSelector} from "../../store/categories-reducer/categories-selectors";
 import {billPositionsSelector} from "../../store/bill-positions/bill-positions-selectors";
 import {patientsSelector} from "../../store/patients-reducer/patients-selector";
-import {Divider, List, TextField} from "@material-ui/core";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
+import {Card, TableContainer, TextField} from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -24,8 +20,28 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from "@material-ui/core/Button";
 import {addNewBillThunk} from "../../store/bills-reducer/bills-reducer";
 import {useHistory} from 'react-router-dom'
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import {makeStyles} from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+
+const useStyles=makeStyles((theme)=>({
+    [theme.breakpoints.down('xs')]:{
+        tableCellPadding:{
+            padding:2
+        }
+    },
+    buttonBlock:{
+        display:"flex",
+        justifyContent: "space-around"
+    }
+}))
 
 export const CreateBillPage = () => {
+    const classes=useStyles()
     const date=new Date().toLocaleDateString()
     const history=useHistory()
     const dispatch = useDispatch()
@@ -63,99 +79,126 @@ export const CreateBillPage = () => {
         //@ts-ignore
         dispatch(addStarDataAction(currentUser.id, currentUser.name, categories, billPositions, date))
     }
+    const handleDateChange=(e:any)=>{
+        console.log(e)
+    }
     //@ts-ignore
-    const categoriesList = newBillState.categories.map(category => {
+    const tableCategories=newBillState?.categories.map(category=>{
         //@ts-ignore
-        const currentBillPositions = newBillState.positions.filter(pos => pos.categoryId === category.id)
+        const currentBillPositions=newBillState.positions.filter(pos => pos.categoryId === category.id)
         //@ts-ignore
-        const listPositions = currentBillPositions.map(pos => {
-            return (
-                <ListItem key={pos.id}>
-                    <ListItemText primary={pos.name}
-                                  // classes={{ primary:classes.positionText }}
-
-                    />
-                    <IconButton onClick={()=>handleDecrease(pos.id)}>
-                        <RemoveIcon/>
-                    </IconButton>
-                    <ListItemText primary={pos.count}
-                        // classes={{ primary:classes.positionText }}
-
-                    />
-                    <IconButton onClick={()=>handleIncrease(pos.id)}>
-                        <AddIcon/>
-                    </IconButton>
-                    <ListItemText primary={+pos.count*+pos.price}
-                        // classes={{ primary:classes.positionText }}
-
-                    />
-                </ListItem>
+        const tableBillPositions=currentBillPositions.map(pos=>{
+            return(
+                <TableRow key={pos.id}>
+                    <TableCell className={classes.tableCellPadding}>{pos.name}</TableCell>
+                    <TableCell className={classes.tableCellPadding}>
+                        <IconButton onClick={()=>handleDecrease(pos.id)}>
+                            <RemoveIcon/>
+                        </IconButton>
+                    </TableCell>
+                    <TableCell className={classes.tableCellPadding}>{pos.count}</TableCell>
+                    <TableCell className={classes.tableCellPadding}>
+                        <IconButton onClick={()=>handleIncrease(pos.id)}>
+                            <AddIcon/>
+                        </IconButton>
+                    </TableCell>
+                    <TableCell className={classes.tableCellPadding}>
+                        {+pos.count*+pos.price}
+                    </TableCell>
+                </TableRow>
             )
         })
-        return (
-            <div key={category.id}>
-            <ListItem >
-                <ListItemText primary={category.name}/>
+        return(
+            <React.Fragment key={category.id}>
+            <TableRow>
+                <TableCell colSpan={5}>{category.name}</TableCell>
+            </TableRow>
+                {tableBillPositions}
+            </React.Fragment>
 
-            </ListItem>
-                <List>
-                    {listPositions}
-                </List>
-            </div>
         )
     })
 
-
     return (
         <div>
-            {/*@ts-ignore*/}
-            <div>{newBillState.createDate}</div>
-            <Divider/>
-            <InputLabel id="demo-simple-select-label">Patient</InputLabel>
-            <Select
-                autoWidth
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // @ts-ignore
-                value={newBillState.patientId}
-                onChange={onChangePatient}
-            >
-                {patientsList}
-            </Select>
-            {/*<TextField*/}
-            {/*    id="date"*/}
-            {/*    label="date"*/}
-            {/*    type="date"*/}
-            {/*    />*/}
-            <Divider/>
-            <List>
+            <Card style={{margin: "5px"}}>
+                {/*@ts-ignore*/}
+                <div style={{margin: "4px"}}>Date: {newBillState.createDate}</div>
 
-            {categoriesList}
-            </List>
-            <Divider/>
-            <TextField
-                id="discount"
-                label="discount"
-                type="number"
-//                @ts-ignore
-                value={newBillState.discount}
-                onChange={handleChangeDiscount}
+                <TextField
+                    size="small"
+                    fullWidth
+                    select
+                    label="patient"
+                    id="demo-simple-select"
+                    helperText="Please select patient"
+                    variant="outlined"
+                    // @ts-ignore
+                    value={newBillState.patientId}
+                    onChange={onChangePatient}
+                >
+                    {patientsList}
+                </TextField>
+            </Card>
+
+            <TableContainer component={Paper} >
+            <Table size="small">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            name
+                        </TableCell>
+                        <TableCell colSpan={3}>
+                            price
+                        </TableCell>
+                        <TableCell>
+                            summ
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {tableCategories}
+                    <TableRow>
+                        <TableCell colSpan={4}>summ</TableCell>
+                        {/*@ts-ignore*/}
+                        <TableCell>{newBillState.sum.toFixed(2)}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+            </TableContainer>
+
+
+                <TextField
+                    style={{margin: "10px 5px"}}
+                    id="discount"
+                    label="discount"
+                    size="small"
+                    type="number"
+                    helperText="Please select discount"
+                    variant="outlined"
+                    //                @ts-ignore
+                    value={newBillState.discount}
+                    onChange={handleChangeDiscount}
                 />
-            {/*@ts-ignore*/}
-            {newBillState.sum.toFixed(2)}
-            {/*@ts-ignore*/}
 
+
+
+            <div className={classes.buttonBlock}>
+                {/*@ts-ignore*/}
             <Button disabled={newBillState.patientName===""}
+                    variant="contained"
                 onClick={handleSaveBill}
             >
                 save
             </Button>
             {/*@ts-ignore*/}
             <Button
+                variant="contained"
                     onClick={handleResetForm}
             >
                 reset
             </Button>
+            </div>
         </div>
     );
 };
