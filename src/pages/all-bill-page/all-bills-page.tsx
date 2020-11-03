@@ -14,7 +14,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {BillI} from "../../store/new-bill/new-bill-reducer";
 import {pdf, Document} from "@react-pdf/renderer";
 import {saveAs} from 'file-saver'
-import {CreatePagePdf} from "../../pdf/createPagePdf";
+import {CreateBillPdf} from "../../pdf/create-bill-pdf";
 
 const useStyles=makeStyles((theme)=>({
     [theme.breakpoints.down('xs')]:{
@@ -34,7 +34,7 @@ export const AllBillsPage = () => {
         console.log(namePdf)
         const blob=await pdf((
             <Document title={namePdf}>
-                <CreatePagePdf/>
+                <CreateBillPdf bill={bill}/>
             </Document>
         )).toBlob();
         saveAs(blob, namePdf + '.pdf');

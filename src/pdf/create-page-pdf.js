@@ -3,6 +3,9 @@ import {Text, Page, Font, View} from "@react-pdf/renderer";
 import styled from "@react-pdf/styled-components";
 import fontStyleTimes from '../assets/fonts/Times New Roman Cyr Regular.TTF';
 import boldFontStyleTimes from '../assets/fonts/Times New Roman Cyr Bold.TTF'
+import {HeaderPdf} from "./header-pdf";
+import {ContentPdf} from "./content-pdf";
+import {FooterPdf} from "./footer-pdf";
 Font.register(
     // { family: 'Roboto', src: fontStyle },
     // {family: 'Times New Roman', src: fontStyleTimes, fontStyle: 'normal', fontWeight: 'normal'}
@@ -25,12 +28,21 @@ export const BodyPage = styled.Page`
   text-align: center;
 `;
 
-export const CreatePagePdf = () => {
+export const CreatePagePdf = (props) => {
     return (
         <BodyPage size="A4" >
-            <View >
-                <Text>Section #1 Секция 1</Text>
-            </View>
+            <HeaderPdf fixed
+                dateBill={props.bill.createDate}
+                       namePatient={props.bill.patientName}
+                       nameDoctor={"some one"}
+            />
+            <ContentPdf>
+                {props.children}
+            </ContentPdf>
+            <FooterPdf
+                summ={props.bill.sum}
+                discount={props.bill.discount}
+                fixed/>
         </BodyPage>
     );
 };
