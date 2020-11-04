@@ -42,7 +42,7 @@ export const authApi={
 const getCollection=async (nameCollection:string)=>{
     const array=[] as Array<any>
     await firebase.firestore().collection(nameCollection)
-        // .orderBy('createAt')
+        .orderBy('createAt', 'desc')
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -59,7 +59,7 @@ const getCollectionsSearch=async(nameCollection:string, search:string)=>{
     const array=[ ]as Array<any>
     await firebase.firestore().collection(nameCollection)
         .where('name', '>=', search).where('name', '<=', search+ '\uf8ff')
-        // .orderBy('createAt')
+        .orderBy('createAt', 'desc')
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
