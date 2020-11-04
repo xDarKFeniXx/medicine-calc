@@ -47,11 +47,10 @@ export const AllBillsPage = () => {
     const allBillsList=allBills.map(bill=>{
 
         return(
-            // <div key={bill.id}>{bill.sum}</div>
             <TableRow key={bill.id}>
                 <TableCell className={classes.tableCellPadding}>{bill.patientName}</TableCell>
                 <TableCell className={classes.tableCellPadding}>{bill.createDate}</TableCell>
-                <TableCell className={classes.tableCellPadding}>{bill.sum}</TableCell>
+                <TableCell className={classes.tableCellPadding}>{bill.sum} &#8381;</TableCell>
                 <TableCell className={classes.tableCellPadding}>
                     <IconButton onClick={()=>handleDownload(bill)}>
                         <GetAppIcon/>
@@ -70,10 +69,10 @@ export const AllBillsPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell className={classes.tableCellPadding}>patient</TableCell>
-                            <TableCell className={classes.tableCellPadding}>date</TableCell>
-                            <TableCell className={classes.tableCellPadding}>summ</TableCell>
-                            <TableCell className={classes.tableCellPadding}>actions</TableCell>
+                            <TableCell className={classes.tableCellPadding}>Пациент</TableCell>
+                            <TableCell className={classes.tableCellPadding}>Дата</TableCell>
+                            <TableCell className={classes.tableCellPadding}>Сумма</TableCell>
+                            <TableCell className={classes.tableCellPadding}>Действия</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

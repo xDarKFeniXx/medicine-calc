@@ -1,4 +1,3 @@
-
 import firebase from "firebase/app"
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -28,6 +27,7 @@ export const authApi={
             })
             .catch(function (error) {
                 console.log('An error happened')
+                // TODO сделать шину ошибок
             });
     },
     async updateUserInfo(name:string, medicPosition:string){
@@ -42,6 +42,7 @@ export const authApi={
 const getCollection=async (nameCollection:string)=>{
     const array=[] as Array<any>
     await firebase.firestore().collection(nameCollection)
+        // .orderBy('createAt')
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -57,8 +58,8 @@ const getCollection=async (nameCollection:string)=>{
 const getCollectionsSearch=async(nameCollection:string, search:string)=>{
     const array=[ ]as Array<any>
     await firebase.firestore().collection(nameCollection)
-        // .where('name', '<=', search)
         .where('name', '>=', search).where('name', '<=', search+ '\uf8ff')
+        // .orderBy('createAt')
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -72,9 +73,7 @@ const getCollectionsSearch=async(nameCollection:string, search:string)=>{
     return array
 }
 const addNewItemInCollection=async(collectionName:string, item:any)=>{
-    const createAt=firebase.firestore.FieldValue.serverTimestamp()
-
-    item.createAt=createAt
+    item.createAt=firebase.firestore.FieldValue.serverTimestamp()
     item.updateAt=null
     await firebase.firestore().collection(collectionName).add(item)
         .then(function (docRef) {
@@ -153,13 +152,7 @@ export const billsApi={
         return await getCollection('bills')
     },
     async addNewBill(newBill:BillI){
-      // await firebase.firestore().collection('bills').add(newBill)
-      //     .then(function (docRef) {
-      //         console.log("Document written with ID: ", docRef.id);
-      //     })
-      //     .catch(function (error) {
-      //         console.error("Error adding document: ", error);
-      //     });
+
         await addNewItemInCollection('bills', newBill)
     },
     async deleteBill(id:string){

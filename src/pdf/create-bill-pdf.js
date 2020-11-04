@@ -5,7 +5,6 @@ import styled from "@react-pdf/styled-components";
 
 const TablePdf=styled.View`
 box-sizing:border-box;
-border: 0.35mm solid black;
 display:flex;
 flex-direction:column;
 width:180mm;
@@ -39,7 +38,7 @@ export const CreateBillPdf = ({bill}) => {
         if(+pos.count!==0){
             counterRows++
             return(
-                <TableRow key={pos.id}>
+                <TableRow key={pos.id} wrap={false}>
                     <Cell1>
                        <Text> {counterRows}</Text>
                     </Cell1>
@@ -57,12 +56,12 @@ export const CreateBillPdf = ({bill}) => {
     return (
         <CreatePagePdf bill={bill}>
             <Text>Услуги</Text>
-            <TablePdf>
+            <TablePdf wrap>
                 <TableRow>
                     <Cell1><Text>№пп</Text></Cell1>
                         <Cell2><Text>Наименование услуги</Text></Cell2>
                         <Cell3><Text>Количество</Text></Cell3>
-                        <Cell4><Text>Сумма</Text></Cell4>
+                        <Cell4><Text>Сумма, руб.</Text></Cell4>
 
                 </TableRow>
                 {positions}

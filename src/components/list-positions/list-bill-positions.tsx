@@ -39,7 +39,7 @@ export const ListBillPositions = (props: any) => {
                     <TableCell colSpan={7}>
                         {pos.name}
                     </TableCell>
-                    <TableCell colSpan={3}>{pos.price}</TableCell>
+                    <TableCell colSpan={3}>{pos.price} &#8381;</TableCell>
                     <TableCell colSpan={2}>
                         <IconButton
                                     onClick={() => handleDeleteBillPosition(pos.id)}

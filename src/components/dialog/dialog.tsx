@@ -79,7 +79,11 @@ export const DialogEditField = (props:any) => {
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleEdit} color="primary">
+                <Button
+                    onClick={handleEdit}
+                    color="primary"
+                // TODO сделать валидацию и блокировку кнопки
+                >
                     edit
                 </Button>
             </DialogActions>

@@ -30,7 +30,7 @@ export const BodyPage = styled.Page`
 
 export const CreatePagePdf = (props) => {
     return (
-        <BodyPage size="A4" >
+        <BodyPage size="A4" wrap>
             <HeaderPdf fixed
                 dateBill={props.bill.createDate}
                        namePatient={props.bill.patientName}
