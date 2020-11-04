@@ -34,14 +34,15 @@ export const CreatePagePdf = (props) => {
             <HeaderPdf fixed
                 dateBill={props.bill.createDate}
                        namePatient={props.bill.patientName}
-                       nameDoctor={"some one"}
+                       nameDoctor={props.bill.doctorName}
+                       summ={props.bill.sum}
+                       discount={props.bill.discount}
             />
             <ContentPdf>
                 {props.children}
             </ContentPdf>
             <FooterPdf
-                summ={props.bill.sum}
-                discount={props.bill.discount}
+
                 fixed/>
         </BodyPage>
     );

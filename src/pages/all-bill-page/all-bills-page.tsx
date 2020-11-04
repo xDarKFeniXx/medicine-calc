@@ -1,6 +1,6 @@
 import TableContainer from '@material-ui/core/TableContainer';
 import React from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { allBillsSelector } from '../../store/bills-reducer/bills-selectors';
 import {Paper} from "@material-ui/core";
 import Table from "@material-ui/core/Table";
@@ -15,6 +15,8 @@ import {BillI} from "../../store/new-bill/new-bill-reducer";
 import {pdf, Document} from "@react-pdf/renderer";
 import {saveAs} from 'file-saver'
 import {CreateBillPdf} from "../../pdf/create-bill-pdf";
+import {deleteBillThunk} from "../../store/bills-reducer/bills-reducer";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles=makeStyles((theme)=>({
     [theme.breakpoints.down('xs')]:{
@@ -27,11 +29,11 @@ const useStyles=makeStyles((theme)=>({
 
 export const AllBillsPage = () => {
     const classes=useStyles()
-
+    const dispatch=useDispatch()
     const allBills=useSelector(allBillsSelector)
     const handleDownload=async (bill:BillI)=>{
         const namePdf=`${bill.patientName}_${bill.createDate}_${bill.id?.substring(2)}`
-        console.log(namePdf)
+
         const blob=await pdf((
             <Document title={namePdf}>
                 <CreateBillPdf bill={bill}/>
@@ -39,17 +41,24 @@ export const AllBillsPage = () => {
         )).toBlob();
         saveAs(blob, namePdf + '.pdf');
     }
-
+    const handleDeleteBill=async (id:string)=>{
+        await dispatch(deleteBillThunk(id))
+    }
     const allBillsList=allBills.map(bill=>{
+
         return(
             // <div key={bill.id}>{bill.sum}</div>
-            <TableRow>
+            <TableRow key={bill.id}>
                 <TableCell className={classes.tableCellPadding}>{bill.patientName}</TableCell>
                 <TableCell className={classes.tableCellPadding}>{bill.createDate}</TableCell>
                 <TableCell className={classes.tableCellPadding}>{bill.sum}</TableCell>
                 <TableCell className={classes.tableCellPadding}>
                     <IconButton onClick={()=>handleDownload(bill)}>
                         <GetAppIcon/>
+                    </IconButton>
+                    {/*@ts-ignore*/}
+                    <IconButton onClick={()=>handleDeleteBill(bill.id)}>
+                        <DeleteIcon/>
                     </IconButton>
                 </TableCell>
             </TableRow>

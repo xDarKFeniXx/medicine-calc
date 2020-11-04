@@ -79,9 +79,7 @@ export const CreateBillPage = () => {
         //@ts-ignore
         dispatch(addStarDataAction(currentUser.id, currentUser.name, categories, billPositions, date))
     }
-    const handleDateChange=(e:any)=>{
-        console.log(e)
-    }
+
     //@ts-ignore
     const tableCategories=newBillState?.categories.map(category=>{
         //@ts-ignore
@@ -149,17 +147,17 @@ export const CreateBillPage = () => {
                             name
                         </TableCell>
                         <TableCell colSpan={3}>
-                            price
+                            count
                         </TableCell>
                         <TableCell>
-                            summ
+                            summa
                         </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {tableCategories}
                     <TableRow>
-                        <TableCell colSpan={4}>summ</TableCell>
+                        <TableCell colSpan={4}>total</TableCell>
                         {/*@ts-ignore*/}
                         <TableCell>{newBillState.sum.toFixed(2)}</TableCell>
                     </TableRow>

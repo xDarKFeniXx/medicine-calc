@@ -1,18 +1,27 @@
 import React from 'react';
-import {Text} from "@react-pdf/renderer";
+import {Text, View} from "@react-pdf/renderer";
 import styled from "@react-pdf/styled-components";
 
 const Header=styled.View`
      display:flex;
+     text-align: left;
+     flex-direction: row;
+     justify-content: space-between;
+     height:30mm;
 `
 
-export const HeaderPdf = ({nameDoctor, namePatient, dateBill}) => {
+export const HeaderPdf = ({nameDoctor, namePatient, dateBill, summ, discount}) => {
     return (
-        <Header>
-           <Text>Header</Text>
-            <Text>{nameDoctor}</Text>
-            <Text>{namePatient}</Text>
-            <Text>{dateBill}</Text>
+        <Header >
+            <View>
+            <Text>Врач: {nameDoctor}</Text>
+            <Text>Пациент: {namePatient}</Text>
+            <Text>Дата: {dateBill}</Text>
+            </View>
+            <View>
+                <Text>Скидка: {discount}%</Text>
+                <Text>Итог: {summ} руб.</Text>
+            </View>
         </Header>
     );
 };

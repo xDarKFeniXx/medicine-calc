@@ -29,5 +29,9 @@ export const addNewBillThunk=(newBill:BillI)=>async (dispatch:any)=>{
     const data=await billsApi.addNewBill(newBill)
     dispatch(getBillsThunk())
 }
+export const deleteBillThunk=(id:string)=>async (dispatch:any)=>{
+    const data =await billsApi.deleteBill(id)
+    dispatch(getBillsThunk())
+}
 export default billsReducer
 export type BillsReducerActionTypes=SetBillsActionType

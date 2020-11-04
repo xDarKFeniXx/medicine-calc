@@ -4,12 +4,12 @@ import styled from "@react-pdf/styled-components";
 
 const Footer=styled.View`
     display:flex;
+    height: 20mm;
 `
-export const FooterPdf = ({discount, summ}) => {
+export const FooterPdf = () => {
     return (
-        <Footer>
-            <Text>Footer</Text>
-            <Text>{summ} - {discount}</Text>
+        <Footer >
+            <Text>Клиника-лечите зубы у нас)</Text>
         </Footer>
     );
 };

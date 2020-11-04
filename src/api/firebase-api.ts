@@ -72,6 +72,10 @@ const getCollectionsSearch=async(nameCollection:string, search:string)=>{
     return array
 }
 const addNewItemInCollection=async(collectionName:string, item:any)=>{
+    const createAt=firebase.firestore.FieldValue.serverTimestamp()
+
+    item.createAt=createAt
+    item.updateAt=null
     await firebase.firestore().collection(collectionName).add(item)
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
@@ -93,6 +97,7 @@ const deleteItemInCollection=async(collectionName:string, itemId:string)=>{
 const updateItemInCollection=async(collectionName:string, item:any)=>{
     const id=item.id
     delete item.id
+    item.updateAt=firebase.firestore.FieldValue.serverTimestamp()
     await firebase.firestore().collection(collectionName)
         .doc(id)
         .update({...item})
@@ -148,12 +153,16 @@ export const billsApi={
         return await getCollection('bills')
     },
     async addNewBill(newBill:BillI){
-      await firebase.firestore().collection('bills').add(newBill)
-          .then(function (docRef) {
-              console.log("Document written with ID: ", docRef.id);
-          })
-          .catch(function (error) {
-              console.error("Error adding document: ", error);
-          });
+      // await firebase.firestore().collection('bills').add(newBill)
+      //     .then(function (docRef) {
+      //         console.log("Document written with ID: ", docRef.id);
+      //     })
+      //     .catch(function (error) {
+      //         console.error("Error adding document: ", error);
+      //     });
+        await addNewItemInCollection('bills', newBill)
+    },
+    async deleteBill(id:string){
+        await deleteItemInCollection('bills', id)
     }
 }

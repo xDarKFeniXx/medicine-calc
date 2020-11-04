@@ -70,7 +70,6 @@ export const DialogEditField = (props:any) => {
                     type="number"
                     autoFocus
                     margin="dense"
-                    id={price}
                     fullWidth
                     value={priceField}
                     onChange={handlePriceChange}

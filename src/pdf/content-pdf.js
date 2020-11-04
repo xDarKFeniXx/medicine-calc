@@ -6,10 +6,11 @@ const Content=styled.View`
     box-sizing: border-box;
     padding: 5mm 0;
      display:flex;
+     height:220mm;
 `;
 export const ContentPdf = (props) => {
     return (
-        <Content>
+        <Content >
             {props.children}
         </Content>
     );
