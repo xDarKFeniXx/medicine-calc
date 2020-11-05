@@ -31,7 +31,7 @@ export const AllBillsPage = () => {
     const classes=useStyles()
     const dispatch=useDispatch()
     const allBills=useSelector(allBillsSelector)
-    const handleDownload=async (bill:BillI)=>{
+    const handleDownload=React.useCallback(async (bill:BillI)=>{
         const namePdf=`${bill.patientName}_${bill.createDate}_${bill.id?.substring(2)}`
 
         const blob=await pdf((
@@ -40,7 +40,7 @@ export const AllBillsPage = () => {
             </Document>
         )).toBlob();
         saveAs(blob, namePdf + '.pdf');
-    }
+    },[])
     const handleDeleteBill=async (id:string)=>{
         await dispatch(deleteBillThunk(id))
     }

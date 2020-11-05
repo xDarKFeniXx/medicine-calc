@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {categoriesSelector} from "../../store/categories-reducer/categories-selectors";
 import {Dialog, List, ListSubheader, Theme} from "@material-ui/core";
@@ -37,19 +37,19 @@ export const BillPositionsPage = () => {
     const categories = useSelector(categoriesSelector)
     const billPositions = useSelector(billPositionsSelector)
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleClose = () => {
         setOpen(false);
     };
-    const handleDeleteBillPosition = (id: string) => {
+    const handleDeleteBillPosition = useCallback((id: string) => {
         dispatch(deleteBillPositionThunk(id))
-    }
-    const handleDeleteCategory = (id: string) => {
+    }, [dispatch])
+    const handleDeleteCategory = useCallback((id: string) => {
         billPositions.filter(pos => pos.categoryId === id).forEach(item => {
             dispatch(deleteBillPositionThunk(item.id))
         })
         dispatch(deleteCategoryThunk(id))
-    }
+    }, [dispatch])
     const [dialogProps, setDialogProps] = useState({
         title: "",
         categories,
@@ -61,7 +61,7 @@ export const BillPositionsPage = () => {
         id: "",
         callbackDispatch: () => null
     })
-    const handleChangeCategory = (categoryId: string, categoryName: string) => {
+    const handleChangeCategory = useCallback((categoryId: string, categoryName: string) => {
 
         setDialogProps({
             ...dialogProps,
@@ -74,8 +74,8 @@ export const BillPositionsPage = () => {
             callbackDispatch: updateCategoryThunk
         })
         setOpen(true)
-    }
-    const handleChangeBillPosition = (id: string, name: string, categoryId: string, price: number) => {
+    }, [categories, dialogProps])
+    const handleChangeBillPosition = useCallback((id: string, name: string, categoryId: string, price: number) => {
         setDialogProps({
             ...dialogProps,
             title: " edit bill position",
@@ -89,10 +89,10 @@ export const BillPositionsPage = () => {
             callbackDispatch: updateBillPositionThunk
         })
         setOpen(true)
-    }
+    }, [categories, dialogProps])
 
 
-    const handleAddCategory = () => {
+    const handleAddCategory = useCallback(() => {
         setDialogProps({
             ...dialogProps,
             title: "add category",
@@ -104,8 +104,8 @@ export const BillPositionsPage = () => {
             callbackDispatch: addNewCategoryThunk
         })
         setOpen(true)
-    }
-    const handleAddBillPosition = () => {
+    }, [categories, dialogProps])
+    const handleAddBillPosition = useCallback(() => {
         setDialogProps({
             ...dialogProps,
             title: "add bill position",
@@ -117,7 +117,7 @@ export const BillPositionsPage = () => {
             callbackDispatch: addNewBillPositionThunk
         })
         setOpen(true)
-    }
+    }, [categories, dialogProps])
 
     return (
         <>

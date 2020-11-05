@@ -35,7 +35,7 @@ export const CreatePagePdf = (props) => {
                 dateBill={props.bill.createDate}
                        namePatient={props.bill.patientName}
                        nameDoctor={props.bill.doctorName}
-                       summ={props.bill.sum}
+                       summ={props.bill.sum.toFixed(2)}
                        discount={props.bill.discount}
             />
             <ContentPdf>
