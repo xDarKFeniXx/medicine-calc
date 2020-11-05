@@ -6,13 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import firebase from "firebase/app";
 import 'firebase/auth'
 firebase.initializeApp({
-    apiKey: "AIzaSyCwl_lLLNqYs0VAEOKKePZm-XQxeliDuJA",
-    authDomain: "medicine-calc.firebaseapp.com",
-    databaseURL: "https://medicine-calc.firebaseio.com",
-    projectId: "medicine-calc",
-    storageBucket: "medicine-calc.appspot.com",
-    messagingSenderId: "815717569341",
-    appId: "1:815717569341:web:76cdf31c984ba0895eeb54"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAFING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID
 })
 
 

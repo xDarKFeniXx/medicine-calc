@@ -5,6 +5,7 @@
   "dependencies": {
     "@react-pdf/renderer": "^1.6.11",
     "clsx": "^1.1.1",
+    "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
     "firebase": "^8.0.0",
     "notistack": "^1.0.1",
