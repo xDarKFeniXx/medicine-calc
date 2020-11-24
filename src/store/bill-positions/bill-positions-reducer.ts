@@ -35,7 +35,7 @@ export const getBillPositionsThunk=()=>{
     return async  (dispatch:any)=>{
         const data= await billPositionsApi.getBillPositions()
 
-        dispatch(setBillPositionsAction(data))
+        dispatch(setBillPositionsAction(data||[]))
     }
 }
 export const addNewBillPositionThunk=(newBillPosition:BillPositionType)=>{

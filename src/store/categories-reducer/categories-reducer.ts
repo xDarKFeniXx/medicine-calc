@@ -30,7 +30,7 @@ const setCategoriesAction=(categories:Array<CategoryType>):SetCategoriesActionTy
 export const getCategoriesThunk=()=>{
     return async  (dispatch:any)=>{
         const data= await categoriesApi.getCategories()
-        dispatch(setCategoriesAction(data))
+        dispatch(setCategoriesAction(data||[]))
     }
 }
 export const addNewCategoryThunk=(newBCategory:CategoryType)=>{

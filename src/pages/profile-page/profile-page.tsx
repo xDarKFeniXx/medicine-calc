@@ -4,7 +4,7 @@ import {currentUserSelector} from "../../store/auth-reducer/auth-selectors";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import {updateUserInfoThunk} from "../../store/auth-reducer/auth-reducer";
+import {logOutActionCreator, updateUserInfoThunk} from "../../store/auth-reducer/auth-reducer";
 
 export const ProfilePage = () => {
     const currentUser=useSelector(currentUserSelector)
@@ -23,6 +23,9 @@ export const ProfilePage = () => {
     const handleSaveUser=()=>{
         dispatch(updateUserInfoThunk(user.name, user.position))
     }
+    const handleLogOut=()=>{
+        dispatch(logOutActionCreator())
+    }
     return (
         <div>
             <TextField onChange={handleChange} value={user.name}  label="name" name="name" variant="filled" />
@@ -34,6 +37,13 @@ export const ProfilePage = () => {
                 onClick={handleSaveUser}
             >
                 Send
+            </Button>
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleLogOut}
+            >
+                LogOut
             </Button>
         </div>
     );

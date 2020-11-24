@@ -23,7 +23,7 @@ export const setBillsAction=(data:Array<BillI>):SetBillsActionType=>({
 })
 export const getBillsThunk=()=>async (dispatch:any)=>{
     const data =await billsApi.getBills()
-    dispatch(setBillsAction(data))
+    dispatch(setBillsAction(data||[]))
 }
 export const addNewBillThunk=(newBill:BillI)=>async (dispatch:any)=>{
     const data=await billsApi.addNewBill(newBill)

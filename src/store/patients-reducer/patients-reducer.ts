@@ -32,14 +32,14 @@ export const getPatientsThunk=()=>{
     return async  (dispatch:any)=>{
         const data= await patientsApi.getPatients()
 
-        dispatch(setPatientsAction(data))
+        dispatch(setPatientsAction(data||[]))
     }
 }
 export const getPatientsSearchThunk=(search:string)=>{
     return async  (dispatch:any)=>{
         const data= await patientsApi.getPatientsSearch(search)
         console.log(data)
-        dispatch(setPatientsAction(data))
+        dispatch(setPatientsAction(data||[]))
     }
 }
 export const addPatientThunk=(patient:PatientType)=>{

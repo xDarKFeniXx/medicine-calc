@@ -1,6 +1,11 @@
 import { Dispatch } from "redux";
 import {authApi} from "../../api/firebase-api";
-import {addNotificationAction, NotificationTypeEnum} from "../app-reducer/app-reducer";
+import {
+    addNotificationAction,
+    NotificationTypeEnum,
+    setLoadedAction,
+    setLoadingAction
+} from "../app-reducer/app-reducer";
 
 
 const initialState={
@@ -50,6 +55,7 @@ type LogOutActionType={
 const logOutAction= () => ({
     type: LOGOUT
 })
+
 export const getUserInfo = ()=> {
     return async (dispatch: Dispatch<any>) => {
 
@@ -73,6 +79,13 @@ export const logOutActionCreator = () => {
         await authApi.logout()
         dispatch(logOutAction())
     }
+}
+export const registerNewUserThunk=(name:string, profession:string, email:string, password:string)=>async (dispatch:any)=>{
+    dispatch(setLoadingAction())
+    await authApi.registerNewUser(name, profession, email, password)
+    dispatch(addNotificationAction({message: "Вы успешно зарегистрировались", type: NotificationTypeEnum.SUCCESS}))
+    dispatch(getUserInfo())
+    dispatch(setLoadedAction())
 }
 export const updateUserInfoThunk=(name:string, medicPosition:string)=>async (dispatch:any)=>{
     await authApi.updateUserInfo(name, medicPosition)

@@ -11,8 +11,9 @@ export const authApi={
             const collectionUsers = firebase.firestore().collection('doctors')
             const data = await collectionUsers.doc(user.uid).get().then((res) => res.data())
             // @ts-ignore
-            const {name, medicPosition, access} =data
+
             if(data){
+                const {name, medicPosition, access} = data
                 return {name, medicPosition, access, id:user.uid}
             }
         }
@@ -37,12 +38,33 @@ export const authApi={
                 name, medicPosition
             })
         }
+    },
+    async registerNewUser(name:string, profession:string, email:string, password:string){
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(async (user) => {
+                // @ts-ignore
+                await firebase.firestore().collection('doctors').doc(user.user.uid).set({
+                    name,
+                    medicPosition:profession,
+                    access:"user"
+                })
+
+                // Signed in
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage)
+                // ..
+            });
     }
 }
-const getCollection=async (nameCollection:string)=>{
+const getCollection=async (nameCollection:string, userId:string)=>{
     const array=[] as Array<any>
     await firebase.firestore().collection(nameCollection)
-        .orderBy('createAt', 'desc')
+        .where('userId', '==', userId)
+        // .orderBy('createAt', 'desc')
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -55,11 +77,12 @@ const getCollection=async (nameCollection:string)=>{
         });
     return array
 }
-const getCollectionsSearch=async(nameCollection:string, search:string)=>{
+const getCollectionsSearch=async(nameCollection:string, userId:string, search:string)=>{
     const array=[ ]as Array<any>
     await firebase.firestore().collection(nameCollection)
+        .where('userId', '==', userId)
         .where('name', '>=', search).where('name', '<=', search+ '\uf8ff')
-        .orderBy('createAt', 'desc')
+        // .orderBy('createAt', 'desc')
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -72,10 +95,10 @@ const getCollectionsSearch=async(nameCollection:string, search:string)=>{
         });
     return array
 }
-const addNewItemInCollection=async(collectionName:string, item:any)=>{
+const addNewItemInCollection=async(collectionName:string, userId:string,  item:any)=>{
     item.createAt=firebase.firestore.FieldValue.serverTimestamp()
     item.updateAt=null
-    await firebase.firestore().collection(collectionName).add(item)
+    await firebase.firestore().collection(collectionName).add({...item, userId})
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
         })
@@ -103,13 +126,22 @@ const updateItemInCollection=async(collectionName:string, item:any)=>{
 }
 export const categoriesApi={
     async getCategories(){
-       return await getCollection('categories')
+        const user = await firebase.auth().currentUser
+       // @ts-ignore
+        if(user){
+        return await getCollection('categories', user.uid)
+        }
     },
     async deleteCategory(categoryId:string){
         await deleteItemInCollection('categories', categoryId)
     },
     async addNewCategory(newCategory:any){
-        await addNewItemInCollection('categories', newCategory)
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+
+        await addNewItemInCollection('categories', user.uid, newCategory)
+        }
     },
     async updateCategory(category:any){
         await updateItemInCollection('categories', category)
@@ -118,13 +150,22 @@ export const categoriesApi={
 
 export const billPositionsApi={
     async getBillPositions(){
-        return await getCollection('billPositions')
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+
+        return await getCollection('billPositions', user.uid)
+        }
     },
     async deleteBillPosition(billPositionId:string){
         await deleteItemInCollection('billPositions', billPositionId)
     },
     async addNewBillPosition(newBillPosition:any){
-        await addNewItemInCollection('billPositions', newBillPosition)
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+        await addNewItemInCollection('billPositions', user.uid, newBillPosition)
+        }
     },
     async updateBillPosition(billPosition:any){
         await updateItemInCollection('billPositions', billPosition)
@@ -132,16 +173,26 @@ export const billPositionsApi={
 }
 export const patientsApi={
     async getPatients(){
-        return await getCollection('patients')
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+        return await getCollection('patients', user.uid)
+        }
     },
     async getPatientsSearch(search:string){
-        return await getCollectionsSearch('patients', search)
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+        return await getCollectionsSearch('patients', user.uid, search)
+        }
     },
     async deletePatient(patientsId:string){
         await deleteItemInCollection('patients', patientsId)
     },
     async addNewPatient(newPatient:any){
-        await addNewItemInCollection('patients', newPatient)
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user) await addNewItemInCollection('patients', user.uid, newPatient)
     },
     async updatePatient(patients:any){
         await updateItemInCollection('patients', patients)
@@ -149,11 +200,20 @@ export const patientsApi={
 }
 export const billsApi={
     async getBills(){
-        return await getCollection('bills')
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+            return await getCollection('bills', user.uid)
+        }
+
     },
     async addNewBill(newBill:BillI){
+        const user = await firebase.auth().currentUser
+        // @ts-ignore
+        if(user){
+            await addNewItemInCollection('bills', user.uid, newBill)
 
-        await addNewItemInCollection('bills', newBill)
+        }
     },
     async deleteBill(id:string){
         await deleteItemInCollection('bills', id)
